@@ -122,8 +122,11 @@ exports.deleteProduct = async (req, res) => {
 
 exports.deletecategory = async (req, res) => {
   try {
-    // Decode the URL-encoded category parameter
-    const category = decodeURIComponent(req.params.category);
+    const { category } = req.body;
+    
+    if (!category) {
+      return res.status(400).json({ message: "Category name is required" });
+    }
     
     // Delete all products in the category
     const result = await Product.deleteMany({ category: category });
