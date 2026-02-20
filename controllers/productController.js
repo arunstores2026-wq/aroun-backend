@@ -120,17 +120,22 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-exports.deletecategory= async(req,res)=>{
-
-  try{
-    const category=await Product.findByIdAndDelete(req.
-params.id
-    );
-
-    if(!category){
-      return res.status(200).json({message:"category deleted successfully"});
+exports.deletecategory = async (req, res) => {
+  try {
+    const { category } = req.params;
+    
+    // Delete all products in the category
+    const result = await Product.deleteMany({ category: category });
+    
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "No products found in this category" });
     }
-  }catch(err){
-     return res.status(400).json({message:"category failed to delete "});
+    
+    res.status(200).json({ 
+      message: `Category '${category}' and ${result.deletedCount} products deleted successfully` 
+    });
+  } catch (err) {
+    console.error("Error deleting category:", err);
+    res.status(500).json({ message: "Failed to delete category" });
   }
-}
+};
