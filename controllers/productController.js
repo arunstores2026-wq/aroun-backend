@@ -122,7 +122,7 @@ exports.deleteProduct = async (req, res) => {
 
 exports.deletecategory = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     
     if (!id) {
       return res.status(400).json({ message: "Product ID is required" });
