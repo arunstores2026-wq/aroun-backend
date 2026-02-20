@@ -122,7 +122,8 @@ exports.deleteProduct = async (req, res) => {
 
 exports.deletecategory = async (req, res) => {
   try {
-    const { category } = req.params;
+    // Decode the URL-encoded category parameter
+    const category = decodeURIComponent(req.params.category);
     
     // Delete all products in the category
     const result = await Product.deleteMany({ category: category });
