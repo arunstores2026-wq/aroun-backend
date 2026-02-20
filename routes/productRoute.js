@@ -13,5 +13,5 @@ router.get("/", getProducts); // keep public
 router.get("/:id", getProduct); // keep public
 router.put("/:id", protect, admin, upload.array("images", 5), updateProduct);
 router.delete("/:id", protect, admin, deleteProduct);
-router.delete("/deletecategory/:category", protect, deletecategory);
+router.delete("/deletecategory/:category", deletecategory);
 module.exports = router;
