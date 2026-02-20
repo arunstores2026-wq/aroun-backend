@@ -124,20 +124,27 @@ exports.deletecategory = async (req, res) => {
   try {
     const { id } = req.params;
     
+    console.log('Delete category request received with ID:', id);
+    
     if (!id) {
       return res.status(400).json({ message: "Product ID is required" });
     }
     
     // Get the product first to find its category
     const product = await Product.findById(id);
+    console.log('Found product:', product);
+    
     if (!product) {
+      console.log('Product not found for ID:', id);
       return res.status(404).json({ message: "Product not found" });
     }
     
     const category = product.category;
+    console.log('Deleting category:', category);
     
     // Delete all products in the same category
     const result = await Product.deleteMany({ category: category });
+    console.log('Delete result:', result);
     
     if (result.deletedCount === 0) {
       return res.status(404).json({ message: "No products found in this category" });
